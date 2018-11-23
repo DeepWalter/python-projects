@@ -1,1 +1,4 @@
-# Gitignore file
+# Gitignore file.
+
+## No html files.
+*.html
