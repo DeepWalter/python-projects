@@ -2,3 +2,6 @@
 
 ## No html files.
 *.html
+
+## Ignore temporary files in __pycache__ directory.
+__pycache__/
