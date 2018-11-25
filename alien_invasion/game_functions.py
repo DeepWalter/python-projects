@@ -118,6 +118,11 @@ def create_fleet(ai_settings, screen, ship, aliens):
             create_alien(ai_settings, screen, aliens, alien_id, row_id)
 
 
+def update_aliens(aliens):
+    """Update the positions of all aliens in the fleet."""
+    aliens.update()
+
+
 def counter(collection, last_count=0):
     """Generate a counter printing the number of elements in collection.
 

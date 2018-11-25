@@ -29,6 +29,7 @@ def run_game():
         ship.update()
         gf.update_bullets(bullets)
         # count_bullets() # for DEBUG only
+        gf.update_aliens(aliens)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 
