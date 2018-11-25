@@ -17,8 +17,9 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets):
         ship.moving_down = True
     elif event.key == pygame.K_SPACE:
         # Create a new bullet and add it to bullets group.
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
+        if len(bullets) < ai_settings.bullet_max_num:
+            new_bullet = Bullet(ai_settings, screen, ship)
+            bullets.add(new_bullet)
 
 
 def check_keyup_event(event, ship):
