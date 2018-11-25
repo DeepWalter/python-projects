@@ -56,3 +56,19 @@ def update_screen(ai_settings, screen, ship, bullets):
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()
+
+
+def bullets_counter(bullets, last_count=0):
+    """Return a bullets counter.
+
+    The returned counter takes no argument. The counter prints out the
+    length of bullets only when it changes.
+    """
+    print(f'Initial bullets number: {last_count}')
+
+    def count():
+        nonlocal last_count
+        if len(bullets) != last_count:
+            last_count = len(bullets)
+            print(last_count)
+    return count
