@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from bullet import Bullet
+from alien import Alien
 
 
 def check_keydown_event(event, ai_settings, screen, ship, bullets):
@@ -52,7 +53,7 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_event(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, alien, bullets):
+def update_screen(ai_settings, screen, ship, aliens, bullets):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
     screen.fill(ai_settings.bg_color)
@@ -62,7 +63,7 @@ def update_screen(ai_settings, screen, ship, alien, bullets):
     # Redraw the ship.
     ship.blitme()
     # Redraw the alien.
-    alien.blitme()
+    aliens.draw(screen)
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()
@@ -79,18 +80,36 @@ def update_bullets(bullets):
             bullets.remove(bullet)
 
 
-def bullets_counter(bullets, last_count=0):
-    """Return a bullets counter.
+def create_fleet(ai_settings, screen, aliens):
+    """Create a full fleet of aliens."""
+    # Create an alien and find the number of aliens in a row.
+    # Spacing between each alien is equal to one alien width.
+    alien = Alien(ai_settings, screen)
+    alien_width = alien.rect.width
+    available_spacex = ai_settings.screen_width - 2 * alien_width
+    num_aliens_x = int(available_spacex / (2 * alien_width))
+
+    # Create the first row of aliens.
+    for alien_id in range(num_aliens_x):
+        # Create an alien and place it in the row.
+        alien = Alien(ai_settings, screen)
+        alien.x = alien_width + 2 * alien_width * alien_id
+        alien.rect.x = alien.x
+        aliens.add(alien)
+
+
+def counter(collection, last_count=0):
+    """Generate a counter printing the number of elements in collection.
 
     The returned counter takes no argument. The counter prints out the
-    length of bullets only when it changes.
+    length of collection only when it changes.
     """
     print(f'Initial bullets number: {last_count}')
 
     def count():
-        """Print number of bullets if it changes."""
+        """Print number of elements in collectioin if it changes."""
         nonlocal last_count
-        if len(bullets) != last_count:
-            last_count = len(bullets)
+        if len(collection) != last_count:
+            last_count = len(collection)
             print(last_count)
     return count
