@@ -59,6 +59,17 @@ def update_screen(ai_settings, screen, ship, bullets):
     pygame.display.flip()
 
 
+def update_bullets(bullets):
+    """Update position of bullets and delete old bullets."""
+    # Update position of bullets.
+    bullets.update()
+
+    # Delete bullets that have disappeared.
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+
+
 def bullets_counter(bullets, last_count=0):
     """Return a bullets counter.
 
