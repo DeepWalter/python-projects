@@ -16,10 +16,15 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets):
     elif event.key == pygame.K_DOWN:
         ship.moving_down = True
     elif event.key == pygame.K_SPACE:
-        # Create a new bullet and add it to bullets group.
-        if len(bullets) < ai_settings.bullet_max_num:
-            new_bullet = Bullet(ai_settings, screen, ship)
-            bullets.add(new_bullet)
+        fire_bullet(ai_settings, screen, ship, bullets)
+
+
+def fire_bullet(ai_settings, screen, ship, bullets):
+    """Fire a bullet if maximum bullets number not reached yet."""
+    # Create a new bullet and add it to bullets group.
+    if len(bullets) < ai_settings.bullet_max_num:
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
 
 
 def check_keyup_event(event, ship):
@@ -79,6 +84,7 @@ def bullets_counter(bullets, last_count=0):
     print(f'Initial bullets number: {last_count}')
 
     def count():
+        """Print number of bullets if it changes."""
         nonlocal last_count
         if len(bullets) != last_count:
             last_count = len(bullets)
