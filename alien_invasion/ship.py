@@ -13,9 +13,13 @@ class Ship:
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
+        # Store the ship's birthplace: bottom center of the screen
+        self.birth_centerx = self.screen_rect.centerx
+        self.birth_centery = self.screen_rect.height - self.rect.centery
+
         # Start each new ship at the bottom center of the screen.
-        self.rect.centerx = self.screen_rect.centerx
-        self.rect.bottom = self.screen_rect.bottom
+        self.rect.centerx = self.birth_centerx
+        self.rect.centery = self.birth_centery
 
         # Store decimal values for the ship's center.
         self.centerx = float(self.rect.centerx)
@@ -56,3 +60,8 @@ class Ship:
             self.rect.top = self.screen_rect.top
         if self.rect.bottom > self.screen_rect.bottom:
             self.rect.bottom = self.screen_rect.bottom
+
+    def center_ship(self):
+        """Place the ship on the center of the screen."""
+        self.centerx = self.birth_centerx
+        self.centery = self.birth_centery
