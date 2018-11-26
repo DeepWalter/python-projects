@@ -32,16 +32,17 @@ def fire_bullet(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def check_keyup_event(event, ship):
+def check_keyup_event(event, stats, ship):
     """Respond to key releases."""
-    if event.key == pygame.K_RIGHT:
-        ship.moving_right = False
-    elif event.key == pygame.K_LEFT:
-        ship.moving_left = False
-    elif event.key == pygame.K_UP:
-        ship.moving_up = False
-    elif event.key == pygame.K_DOWN:
-        ship.moving_down = False
+    if stats.game_active:
+        if event.key == pygame.K_RIGHT:
+            ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            ship.moving_left = False
+        elif event.key == pygame.K_UP:
+            ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            ship.moving_down = False
 
 
 def check_events(ai_settings, stats, screen, ship, bullets):
@@ -53,7 +54,7 @@ def check_events(ai_settings, stats, screen, ship, bullets):
             check_keydown_event(event, ai_settings, stats,
                                 screen, ship, bullets)
         elif event.type == pygame.KEYUP:
-            check_keyup_event(event, ship)
+            check_keyup_event(event, stats, ship)
 
 
 def update_screen(ai_settings, screen, ship, aliens, bullets):
