@@ -7,20 +7,21 @@ from bullet import Bullet
 from alien import Alien
 
 
-def check_keydown_event(event, ai_settings, screen, ship, bullets):
+def check_keydown_event(event, ai_settings, stats, screen, ship, bullets):
     """Respond to key presses."""
-    if event.key == pygame.K_RIGHT:
-        ship.moving_right = True
-    elif event.key == pygame.K_LEFT:
-        ship.moving_left = True
-    elif event.key == pygame.K_UP:
-        ship.moving_up = True
-    elif event.key == pygame.K_DOWN:
-        ship.moving_down = True
-    elif event.key == pygame.K_SPACE:
-        fire_bullet(ai_settings, screen, ship, bullets)
-    elif event.key == pygame.K_q:
+    if event.key == pygame.K_q:
         sys.exit()
+    elif stats.game_active:  # update game event only when game is active.
+        if event.key == pygame.K_RIGHT:
+            ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            ship.moving_left = True
+        elif event.key == pygame.K_UP:
+            ship.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            ship.moving_down = True
+        elif event.key == pygame.K_SPACE:
+            fire_bullet(ai_settings, screen, ship, bullets)
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
@@ -43,13 +44,14 @@ def check_keyup_event(event, ship):
         ship.moving_down = False
 
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, stats, screen, ship, bullets):
     """Respond to keypresses and mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_event(event, ai_settings, screen, ship, bullets)
+            check_keydown_event(event, ai_settings, stats,
+                                screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_event(event, ship)
 
