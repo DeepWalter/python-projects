@@ -20,5 +20,7 @@
 **Points:**
 * Start out writing code as simple as possible, and refactor it as your project becomes more complex.
 * Examine the code and determine if it needs to be refactored before implementing new features.
+* When a function grows too long, it may be a good time to refactor it.
 
+---
 [^1]: For example, a keypress or a mouse movement.
