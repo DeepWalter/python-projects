@@ -5,6 +5,7 @@ from settings import Settings
 from ship import Ship
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 import game_functions as gf
 
 
@@ -20,8 +21,9 @@ def run_game():
     play_button = Button(ai_settings, screen, 'Play')
     # Create an instance to store game statistics.
     stats = GameStats(ai_settings)
+    score_board = Scoreboard(ai_settings, screen, stats)
 
-    # Make a ship, a group of bullets, and a group of aliens.
+    # Make a ship, a bullet group, and an alien group.
     ship = Ship(ai_settings, screen)
     bullets = Group()
     # count_bullets = gf.counter(bullets) # for DEBUG only
@@ -40,8 +42,8 @@ def run_game():
             gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
             # count_bullets() # for DEBUG only
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets,
-                         play_button)
+        gf.update_screen(ai_settings, screen, stats, score_board, ship, aliens,
+                         bullets, play_button)
 
 
 if __name__ == '__main__':
