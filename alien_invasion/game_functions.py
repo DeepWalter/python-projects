@@ -7,7 +7,8 @@ from bullet import Bullet
 from alien import Alien
 
 
-def check_keydown_event(event, ai_settings, stats, screen, ship, bullets):
+def check_keydown_event(event, ai_settings, stats, screen, ship, aliens,
+                        bullets):
     """Respond to key presses."""
     if event.key == pygame.K_q:
         sys.exit()
@@ -22,6 +23,17 @@ def check_keydown_event(event, ai_settings, stats, screen, ship, bullets):
             ship.moving_down = True
         elif event.key == pygame.K_SPACE:
             fire_bullet(ai_settings, screen, ship, bullets)
+    elif event.key == pygame.K_p:
+        restart_game(ai_settings, stats, screen, ship, aliens, bullets)
+
+
+def restart_game(ai_settings, stats, screen, ship, aliens, bullets):
+    """Reset game statistics and start a new game."""
+    stats.reset_stats()
+    stats.game_active = True
+    # Reset game speed.
+    ai_settings.initialize_dynamic_settings()
+    start_new_game(ai_settings, screen, ship, aliens, bullets)
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
@@ -52,8 +64,8 @@ def check_events(ai_settings, stats, screen, play_button, ship, aliens,
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_event(event, ai_settings, stats,
-                                screen, ship, bullets)
+            check_keydown_event(event, ai_settings, stats, screen, ship,
+                                aliens, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_event(event, stats, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -69,11 +81,8 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens,
     if button_clicked and not stats.game_active:
         # Hide the mouse cursor.
         pygame.mouse.set_visible(False)
-        # Reset the game statistics.
-        stats.reset_stats()
-        stats.game_active = True
-
-        start_new_game(ai_settings, screen, ship, aliens, bullets)
+        # Restart the game.
+        restart_game(ai_settings, stats, screen, ship, aliens, bullets)
 
 
 def start_new_game(ai_settings, screen, ship, aliens, bullets):
@@ -130,6 +139,7 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
     if len(aliens) == 0:
         # Destroy existing bullets and create a new fleet.
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
 
 
