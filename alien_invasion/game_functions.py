@@ -35,8 +35,11 @@ def restart_game(ai_settings, stats, score_board, screen, ship, aliens,
     stats.game_active = True
     # Reset game speed.
     ai_settings.initialize_dynamic_settings()
+    # Reset the scoreboard.
     score_board.prep_score()
-    score_board.show_score()
+    score_board.prep_level()
+    score_board.prep_highest_score()
+
     start_new_game(ai_settings, screen, ship, aliens, bullets)
 
 
@@ -164,6 +167,9 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, score_board,
         # Destroy existing bullets and create a new fleet.
         bullets.empty()
         ai_settings.increase_speed()
+        # Increase a level.
+        stats.level += 1
+        score_board.prep_level()
         create_fleet(ai_settings, screen, ship, aliens)
 
 
