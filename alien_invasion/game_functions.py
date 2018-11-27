@@ -67,6 +67,8 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens,
     """Start a new play when the player clicks Play."""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
+        # Hide the mouse cursor.
+        pygame.mouse.set_visible(False)
         # Reset the game statistics.
         stats.reset_stats()
         stats.game_active = True
@@ -181,10 +183,9 @@ def change_fleet_direction(ai_settings, aliens):
 
 def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
     """Respond to ship being hit by aliens."""
+    # Decrement ships_left.
+    stats.ships_left -= 1
     if stats.ships_left > 0:
-        # Decrement ships_left
-        stats.ships_left -= 1
-
         # Empty the list of bullets and aliens
         bullets.empty()
         aliens.empty()
@@ -197,6 +198,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
 
 def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
