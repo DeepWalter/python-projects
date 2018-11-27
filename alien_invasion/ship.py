@@ -61,7 +61,11 @@ class Ship:
         if self.rect.bottom > self.screen_rect.bottom:
             self.rect.bottom = self.screen_rect.bottom
 
-    def center_ship(self):
-        """Place the ship on the center of the screen."""
+    def reset_ship(self):
+        """Reset ship to its birthplace and make it static."""
         self.centerx = self.birth_centerx
         self.centery = self.birth_centery
+        self.moving_right = False
+        self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
