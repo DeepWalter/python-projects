@@ -17,6 +17,7 @@ class Scoreboard:
 
         # Prepare the initial score image.
         self.prep_score()
+        self.prep_highest_score()
 
     def prep_score(self):
         """Turn score into a rendered image."""
@@ -30,6 +31,19 @@ class Scoreboard:
         self.score_rect.right = self.screen_rect.right - 20
         self.score_rect.top = 20
 
+    def prep_highest_score(self):
+        """Turn the highest score into a rendered image."""
+        highest_score = int(round(self.stats.highest_score, -1))
+        highest_score_str = f'{highest_score:,}'
+        self.highest_score_image = self.font.render(highest_score_str, True,
+                                                    self.text_color,
+                                                    self.ai_settings.bg_color)
+        # Display the highest score at the top center of the screen.
+        self.highest_score_rect = self.highest_score_image.get_rect()
+        self.highest_score_rect.centerx = self.screen_rect.centerx
+        self.highest_score_rect.top = self.screen_rect.top
+
     def show_score(self):
         """Draw score to the screen."""
         self.screen.blit(self.score_image, self.score_rect)
+        self.screen.blit(self.highest_score_image, self.highest_score_rect)

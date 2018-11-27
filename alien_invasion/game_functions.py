@@ -36,6 +36,13 @@ def restart_game(ai_settings, stats, screen, ship, aliens, bullets):
     start_new_game(ai_settings, screen, ship, aliens, bullets)
 
 
+def check_highest_score(stats, score_board):
+    """Check if there is a new highest score."""
+    if stats.highest_score < stats.score:
+        stats.highest_score = stats.score
+        score_board.prep_highest_score()
+
+
 def fire_bullet(ai_settings, screen, ship, bullets):
     """Fire a bullet if maximum bullets number not reached yet."""
     # Create a new bullet and add it to bullets group.
@@ -145,6 +152,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, score_board,
         for aliens in collisions.values():
             stats.score += ai_settings.alien_points * len(aliens)
         score_board.prep_score()
+        check_highest_score(stats, score_board)
 
     if len(aliens) == 0:
         # Destroy existing bullets and create a new fleet.
