@@ -73,13 +73,18 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens,
         stats.reset_stats()
         stats.game_active = True
 
-        # Empty the group of aliens and bullets.
-        aliens.empty()
-        bullets.empty()
+        start_new_game(ai_settings, screen, ship, aliens, bullets)
 
-        # Create a new fleet of aliens and center the ship.
-        create_fleet(ai_settings, screen, ship, aliens)
-        ship.reset_ship()
+
+def start_new_game(ai_settings, screen, ship, aliens, bullets):
+    """Start a new game."""
+    # Empty the group of aliens and bullets.
+    aliens.empty()
+    bullets.empty()
+
+    # Create a new fleet of aliens and center the ship.
+    create_fleet(ai_settings, screen, ship, aliens)
+    ship.reset_ship()
 
 
 def update_screen(ai_settings, screen, stats, ship, aliens, bullets,
@@ -186,14 +191,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
     # Decrement ships_left.
     stats.ships_left -= 1
     if stats.ships_left > 0:
-        # Empty the list of bullets and aliens
-        bullets.empty()
-        aliens.empty()
-
-        # Create a new fleet and center the ship.
-        create_fleet(ai_settings, screen, ship, aliens)
-        ship.reset_ship()
-
+        start_new_game(ai_settings, screen, ship, aliens, bullets)
         # Pause
         sleep(0.5)
     else:
