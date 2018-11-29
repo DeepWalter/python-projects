@@ -19,10 +19,12 @@ In Alien Invasion:
 ### Main Logic
 
 The main logic of the code is rather simple. After setting up the screen, we create an infinite loop for the interactive
-game play. In the `while` loop, we
+game play. Inside the `while` loop, we
 
 1. watch for keyboard and mouse events;
 2. make changes accordingly;
 3. update the screen.
 
-Step 1 and 2 are closely related. In those steps, we watch for keyboard and mouse events, and then respond to them.
+Step 1 and 2 are closely related. In those steps, we watch for keyboard and mouse events, and then respond to them. In
+the last step, we just draw all the updated objects, namely the bullets, ship, aliens, score board, and buttons, onto
+the screen.
