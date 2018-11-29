@@ -36,6 +36,7 @@ def check_keydown_event(event, ai_settings, stats, score_board, screen, ship,
             elif event.key == pygame.K_SPACE:
                 fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_p:
+        pygame.mouse.set_visible(False)
         restart_game(ai_settings, stats, score_board, screen, ship, aliens,
                      bullets)
 
