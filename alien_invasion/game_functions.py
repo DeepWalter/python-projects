@@ -1,3 +1,12 @@
+"""A collection of game utility functions.
+
+Functions exported:
+* create_fleet
+* check_events
+* update_aliens
+* update_bullets
+* update_screen
+"""
 import sys
 from time import sleep
 
