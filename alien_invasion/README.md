@@ -14,6 +14,14 @@ In Alien Invasion:
 * If any alien hits the player’s ship or reaches the bottom of the screen, the player loses a ship.
 * If the player loses three ships, the game ends.
 
+### How to Play
+
+* Press key `P` or click on the `Play` button to start the game;
+* Press `Return` key to pause or resume the game;
+* Press left/right arrow key to move left/right;
+* Press the spacebar to fire a bullet;
+* Press key `Q` or click the close icon to quit the game.
+
 ## Code Design Details
 
 ### Main Logic
