@@ -13,3 +13,16 @@ In Alien Invasion:
 * If the player shoots all the aliens, a new fleet appears that moves faster than the previous fleet.
 * If any alien hits the player’s ship or reaches the bottom of the screen, the player loses a ship.
 * If the player loses three ships, the game ends.
+
+## Code Design Details
+
+### Main Logic
+
+The main logic of the code is rather simple. After setting up the screen, we create an infinite loop for the interactive
+game play. In the `while` loop, we
+
+1. watch for keyboard and mouse events;
+2. make changes accordingly;
+3. update the screen.
+
+Step 1 and 2 are closely related. In those steps, we watch for keyboard and mouse events, and then respond to them.
