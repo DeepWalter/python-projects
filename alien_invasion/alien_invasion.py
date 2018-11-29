@@ -21,15 +21,14 @@ def run_game():
     play_button = Button(ai_settings, screen, 'Play')
     # Create an instance to store game statistics.
     stats = GameStats(ai_settings)
+    # Create a scoreboard to show scoring information.
     score_board = Scoreboard(ai_settings, screen, stats)
 
     # Make a ship, a bullet group, and an alien group.
     ship = Ship(ai_settings, screen)
     bullets = Group()
-    # count_bullets = gf.counter(bullets) # for DEBUG only
     aliens = Group()
-
-    # Create a row of aliens.
+    # Create a fleet of aliens.
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
     # Start the main loop for the game.
