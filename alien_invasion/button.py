@@ -5,6 +5,11 @@ import pygame.font
 class Button:
     """A class represents a button as filled rectangle with a label.
 
+    Attributes
+    ----------
+    rect: pygame.Rect
+        Rectangular coordinates of the button
+
     Methods
     -------
     draw_button()
@@ -33,8 +38,8 @@ class Button:
         self._font = pygame.font.SysFont(None, 48)
 
         # Build the button's rect object and center it.
-        self._rect = pygame.Rect(0, 0, self._width, self._height)
-        self._rect.center = self._screen_rect.center
+        self.rect = pygame.Rect(0, 0, self._width, self._height)
+        self.rect.center = self._screen_rect.center
 
         # The button message needs to be prepped only once.
         self._prep_msg(msg)
@@ -44,9 +49,9 @@ class Button:
         self._msg_image = self._font.render(msg, True, self._text_color,
                                             self._button_color)
         self._msg_image_rect = self._msg_image.get_rect()
-        self._msg_image_rect.center = self._rect.center
+        self._msg_image_rect.center = self.rect.center
 
     def draw_button(self):
         """Draw the button and its message on the screen."""
-        self._screen.fill(self._button_color, self._rect)
+        self._screen.fill(self._button_color, self.rect)
         self._screen.blit(self._msg_image, self._msg_image_rect)
