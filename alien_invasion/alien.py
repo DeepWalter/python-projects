@@ -3,12 +3,41 @@ from pygame.sprite import Sprite
 
 
 class Alien(Sprite):
-    """A class to represent a single alien in the fleet."""
+    """A class used to represent a single alien.
+
+    Attributes
+    ----------
+    ai_settings: Settings
+        All settings in alien invasion
+    image: pygame.Surface
+        The image of the alien
+    rect: pygame.Rect
+        Rectangular coordinates of the alien
+    x: float
+        Accurate x-coordinate of the alien
+
+    Methods
+    -------
+    blitme()
+        Draw the alien at its current location
+    check_edges()
+        Check if alien is at the right or left edge of the screen
+    update()
+        Move the alien horizontally
+    """
 
     def __init__(self, ai_settings, screen):
-        """Initialize the alien and set its start position."""
+        """Initialize the alien and set its start position.
+
+        Parameters
+        ----------
+        ai_settings: Settings
+            All settings in alien invasion
+        screen: pygame.Surface
+            The screen on which the alien is drawn
+        """
         super().__init__()
-        self.screen = screen
+        self._screen = screen
         self.ai_settings = ai_settings
 
         # Load the alien image and set its rect attribute.
@@ -24,11 +53,11 @@ class Alien(Sprite):
 
     def blitme(self):
         """Draw the alien at its current location."""
-        self.screen.blit(self.image, self.rect)
+        self._screen.blit(self.image, self.rect)
 
     def check_edges(self):
-        """Check if the alien is at the edge of the screen."""
-        screen_rect = self.screen.get_rect()
+        """Check if alien is at the right or left edge of the screen."""
+        screen_rect = self._screen.get_rect()
         if self.rect.right >= screen_rect.right:
             return True
         elif self.rect.left <= screen_rect.left:
@@ -37,7 +66,7 @@ class Alien(Sprite):
             return False
 
     def update(self):
-        """Move the alien right."""
+        """Move the alien horizontally."""
         self.x += (self.ai_settings.alien_speed_factor *
                    self.ai_settings.fleet_direction)
         self.rect.x = self.x
