@@ -19,6 +19,7 @@ def run_game():
 
     # Make the Play button.
     play_button = Button(ai_settings, screen, 'Play')
+    pause_button = Button(ai_settings, screen, 'Paused')
     # Create an instance to store game statistics.
     stats = GameStats(ai_settings)
     # Create a scoreboard to show scoring information.
@@ -36,7 +37,7 @@ def run_game():
         gf.check_events(ai_settings, stats, score_board, screen, play_button,
                         ship, aliens, bullets)
 
-        if stats.game_active:
+        if stats.game_active and not stats.game_paused:
             ship.update()
             gf.update_bullets(ai_settings, screen, stats, score_board, ship,
                               aliens, bullets)
@@ -44,7 +45,7 @@ def run_game():
             gf.update_aliens(ai_settings, stats, score_board, screen, ship,
                              aliens, bullets)
         gf.update_screen(ai_settings, screen, stats, score_board, ship, aliens,
-                         bullets, play_button)
+                         bullets, play_button, pause_button)
 
 
 if __name__ == '__main__':

@@ -35,6 +35,7 @@ class GameStats:
         # Start Alien Invasion in an inactive state.
         self.game_active = False
         # Highest score should never be reset.
+        self.game_paused = False
         self.highest_score = 0
 
     def reset_stats(self):

@@ -19,19 +19,22 @@ from alien import Alien
 def check_keydown_event(event, ai_settings, stats, score_board, screen, ship,
                         aliens, bullets):
     """Respond to key presses."""
-    if event.key == pygame.K_q:
+    if event.key == pygame.K_q:  # both active and inactive.
         sys.exit()
     elif stats.game_active:  # update game event only when game is active.
-        if event.key == pygame.K_RIGHT:
-            ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            ship.moving_left = True
-        elif event.key == pygame.K_UP:
-            ship.moving_up = True
-        elif event.key == pygame.K_DOWN:
-            ship.moving_down = True
-        elif event.key == pygame.K_SPACE:
-            fire_bullet(ai_settings, screen, ship, bullets)
+        if event.key == pygame.K_RETURN:
+            stats.game_paused = not stats.game_paused
+        elif not stats.game_paused:
+            if event.key == pygame.K_RIGHT:
+                ship.moving_right = True
+            elif event.key == pygame.K_LEFT:
+                ship.moving_left = True
+            elif event.key == pygame.K_UP:
+                ship.moving_up = True
+            elif event.key == pygame.K_DOWN:
+                ship.moving_down = True
+            elif event.key == pygame.K_SPACE:
+                fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_p:
         restart_game(ai_settings, stats, score_board, screen, ship, aliens,
                      bullets)
@@ -123,7 +126,7 @@ def start_new_game(ai_settings, screen, ship, aliens, bullets):
 
 
 def update_screen(ai_settings, screen, stats, score_board, ship, aliens,
-                  bullets, play_button):
+                  bullets, play_button, pause_button):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
     screen.fill(ai_settings.bg_color)
@@ -141,6 +144,9 @@ def update_screen(ai_settings, screen, stats, score_board, ship, aliens,
     # Draw the play button if the game is inactive.
     if not stats.game_active:
         play_button.draw_button()
+
+    if stats.game_paused:
+        pause_button.draw_button()
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()
