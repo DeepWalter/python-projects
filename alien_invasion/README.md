@@ -3,6 +3,8 @@
 [![Python-Version](https://img.shields.io/badge/python-3.6.7-blue.svg)](https://docs.python.org/3.6/)
 [![Pygame-Version](https://img.shields.io/badge/pygame-1.9.4-blue.svg)](https://www.pygame.org/wiki/GettingStarted)
 
+![Alien-invasion](./figures/alien-invasion.png)
+
 ## Game Description
 
 In Alien Invasion:
@@ -34,5 +36,5 @@ game play. Inside the `while` loop, we
 3. update the screen.
 
 Step 1 and 2 are closely related. In those steps, we watch for keyboard and mouse events, and then respond to them. In
-the last step, we just draw all the updated objects, namely the bullets, ship, aliens, score board, and buttons, onto
-the screen.
+the last step, we draw all the updated objects, namely the bullets, ship, aliens, score board, and buttons, onto the
+screen.
