@@ -6,7 +6,7 @@
 
 ## Description
 
-### Rules
+### [Rules](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules)
 
 The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in
 one of two possible states, alive or dead, (or populated and unpopulated, respectively). Every cell interacts with its
@@ -23,6 +23,10 @@ simultaneously to every cell in the seed; births and deaths occur simultaneously
 happens is sometimes called a tick. Each generation is a pure function of the preceding one. The rules continue to be
 applied repeatedly to create further generations.
 
+### How to Play
+
+For detailed usage, run `python game_of_life.py -h` for help.
+
 ## Code Design Details
 
 ### Main Logic
@@ -31,5 +35,12 @@ Main logic of the code:
 
 * Initialize the cells in the grid;
 * At each timestep:
-  * update the status of each cell based on its neighbours;
+  * update the status of each cell based on its neighbours' status;
   * update the display of the grid.
+
+### Details
+
+TODO: Add more details.
+* For simplicity, each cell's status is represented as `ON` (which has value `1`), or `OFF` (which has value `0`).
+* We store the status of the grid as a numpy array.
+* We use `FuncAnimation()` function to animate the changes.
