@@ -94,6 +94,7 @@ class GameOfLife:
 
     def show_grid(self):
         """Show the current status of all cells."""
+        plt.axis('off')
         plt.imshow(self._grid, interpolation='nearest')
         plt.show()
 
