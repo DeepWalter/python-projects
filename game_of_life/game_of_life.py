@@ -6,19 +6,45 @@ import matplotlib.animation as animation
 
 
 class GameOfLife:
-    """A class used to simulate Conway's game of life."""
+    """A class used to simulate Conway's game of life.
+
+    Methods
+    -------
+    set_grid(style='random')
+        Set up the grid.
+    add_glider(pos=(0, 0))
+        Add a glider with top-left at position pos.
+    update_grid()
+        Update the grid once.
+    show_grid()
+        Show the current status of all cells.
+    show(filename=None, interval=100)
+        Show and save the animation of game of life.
+    """
     ON = 1
     OFF = 0
     VALUES = (ON, OFF)
 
     def __init__(self, N=100):
-        """Initialize game of life."""
+        """Initialize game of life.
+
+        Parameters
+        ----------
+        N : int, optional
+            Size of the grid (default is 100).
+        """
         self._N = N
 
         self.set_grid()
 
-    def set_grid(self, t='random'):
-        """Set up the grid."""
+    def set_grid(self, style='random'):
+        """Set up the grid.
+
+        Parameters
+        ----------
+        style : str
+            Style of the grid (default is 'random').
+        """
         self._grid = np.random.choice(
             type(self).VALUES, (self._N, self._N), (0.2, 0.8)
         ).reshape((self._N, self._N))
@@ -28,8 +54,9 @@ class GameOfLife:
 
         Parameters
         ----------
-        pos: tuple of int
-            (row, col)-coordinate of the top-left of the glider to be placed
+        pos: tuple of int, optional
+            (row, col)-coordinate of the top-left of the glider to be
+            placed (default is (0, 0)).
         """
         row, col = pos
         self._grid[row:row+3, col:col+3] = np.array([[0, 0, 1],
@@ -37,7 +64,7 @@ class GameOfLife:
                                                      [0, 1, 1]])
 
     def update_grid(self):
-        """Update the grid according to the rules."""
+        """Update the grid once."""
         old_grid = self._grid.copy()
         N = self._N
         for i in range(N):
@@ -71,25 +98,27 @@ class GameOfLife:
         return img
 
     def show(self, filename=None, interval=100):
-        """Show the animation of game of life.
+        """Show and save the animation of game of life.
 
         Parameters
         ----------
-        filename: str, optional
-            Name of file in which the animation is saved (default None)
-        interval: int, optional
-            Delay between frames in milliseconds (default 100)
+        filename : str, optional
+            Name of the file in which the animation is saved using the
+            ImageMagick writer (default is None, which means not saved).
+        interval : int, optional
+            Delay between frames in milliseconds (default is 100).
         """
-        # Set up animation
+        # Set up animation.
         fig, ax = plt.subplots()
+        plt.axis('off')
         img = ax.imshow(self._grid, interpolation='nearest')
         ani = animation.FuncAnimation(fig, self._update, fargs=(img,),
                                       frames=50,
                                       interval=interval,
                                       save_count=50)
-        # Save to movfile
+        # Save the animation.
         if filename is not None:
-            ani.save(filename, fps=30, extra_args=['-vcodec', 'libx264'])
+            ani.save(filename, fps=10, writer='imagemagick')
         plt.show()
 
 
@@ -119,4 +148,4 @@ def main():
 
 if __name__ == '__main__':
     game = GameOfLife()
-    game.show('./gof.mov')
+    game.show('./gof.gif')
