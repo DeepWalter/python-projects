@@ -42,12 +42,18 @@ class GameOfLife:
 
         Parameters
         ----------
-        style : str
+        style : {'random', 'glider'}, optional
             Style of the grid (default is 'random').
         """
-        self._grid = np.random.choice(
-            type(self).VALUES, (self._N, self._N), (0.2, 0.8)
-        ).reshape((self._N, self._N))
+        if style == 'random':
+            self._grid = np.random.choice(
+                type(self).VALUES, (self._N, self._N), (0.2, 0.8)
+            ).reshape((self._N, self._N))
+        elif style == 'glider':
+            self._grid = np.zeros((self._N, self._N), dtype=int)
+            self.add_glider((1, 1))
+        else:
+            self._grid = np.zeros((self._N, self._N), dtype=int)
 
     def add_glider(self, pos=(0, 0)):
         """Add a glider with top-left at position pos.
@@ -113,9 +119,9 @@ class GameOfLife:
         plt.axis('off')
         img = ax.imshow(self._grid, interpolation='nearest')
         ani = animation.FuncAnimation(fig, self._update, fargs=(img,),
-                                      frames=50,
+                                      frames=100,
                                       interval=interval,
-                                      save_count=50)
+                                      save_count=100)
         # Save the animation.
         if filename is not None:
             ani.save(filename, fps=10, writer='imagemagick')
@@ -138,14 +144,33 @@ def main():
         type=int,  # type of attr
         default=100,  # default value
         required=False,  # this option is optional
-        help='Size of the squared grid. (default to 100)'  # help info
+        help='Size of the squared grid (default to 100).'  # help info
     )
-
+    parser.add_argument('--glider', action='store_true', required=False,
+                        help='Initialize the grid to a glider.')
+    parser.add_argument(
+        '--interval',
+        dest='interval',
+        type=int,
+        default=100,
+        required=False,
+        help='Delay between frames in milliseconds (default is 100).'
+    )
+    parser.add_argument(
+        '--filename',
+        dest='filename',
+        type=str,
+        default=None,
+        required=False,
+        help='Output file (default is None, which means not saved).'
+    )
     args = parser.parse_args()
 
-    print(args.N)
+    gof = GameOfLife(args.N)
+    if args.glider:
+        gof.set_grid('glider')
+    gof.show(args.filename)
 
 
 if __name__ == '__main__':
-    game = GameOfLife()
-    game.show('./gof.gif')
+    main()
