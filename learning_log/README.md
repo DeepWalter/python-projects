@@ -1,5 +1,6 @@
-# Learing Log
+# Learing Log -- A Web Application
 
+[![Python-Version](https://img.shields.io/badge/python-3.6.7-blue.svg)](https://docs.python.org/3.6/)
 [![django-version](https://img.shields.io/badge/django-v2.1.4-blue.svg)](https://docs.djangoproject.com/en/2.1/)
 
 For more details about Django, see the [notes](notes.md).

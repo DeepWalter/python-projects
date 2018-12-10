@@ -4,12 +4,12 @@
 
 ### Create a Project
 
-```sh
+```zsh
 django-admin startproject <projectname>
 ```
 
 If you are in the directory `django`, you run
-```sh
+```zsh
 django-admin startproject mysite
 ```
 it will create the following files:
@@ -36,23 +36,23 @@ Here,
 
 ### Start the Development Server
 
-```sh
+```zsh
 python manage.py runserver
 ```
 
 If you want to change the server's port, pass it as a command-line argument, e.g.:
-```sh
+```zsh
 python manage.py runserver 8080
 ```
 
 ### Create an App
 
 In the directory that contains `manage.py`, run
-```sh
+```zsh
 python manage.py startapp <appname>
 ```
 where `appname` is the name of the application you want to add. For example,
-```sh
+```zsh
 python manage.py startapp logs
 ```
 will create a directory `logs` in `django` with the following layout:
@@ -70,7 +70,7 @@ logs/
 
 ### Create a Superuser
 
-```sh
+```zsh
 python manage.py createsuperuser
 ```
 You may need to supply an username, an email, and a password.
