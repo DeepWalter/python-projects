@@ -1,5 +1,9 @@
 # Learing Log
 
+[![django-version](https://img.shields.io/badge/django-v2.1.4-blue.svg)](https://docs.djangoproject.com/en/2.1/)
+
+For more details about Django, see the [notes](notes.md).
+
 ## Description
 
 Learning Log is a web app that allows users to log the topics they’re interested in and to make journal entries as they
