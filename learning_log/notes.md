@@ -8,11 +8,11 @@
 django-admin startproject <projectname>
 ```
 
-If you are in the directory `django`, you run
+If you are in the directory `django`, run
 ```zsh
 django-admin startproject mysite
 ```
-it will create the following files:
+will create the following files:
 
 ```
 django/
@@ -75,14 +75,25 @@ python manage.py createsuperuser
 ```
 You may need to supply an username, an email, and a password.
 
+### Migrate the Models
+
+```zsh
+python manage.py makemigrations [<app_name>]
+```
+creates new migrations based on the changes detected to your models.
+
+### Synchronize the Database with Models
+
+```zsh
+python manage.py migrate
+```
+synchronizes the database state with the current set of models and migrations.
+
 ## Django Basics
 
 **Points:**
 * Fields are specified by class attributes. They are the only required part of a model defining the database fields.
 * Built-in field types: TODO:
-* `makemigrations`: figure out how to modify the database so django can store the data associate with any new models.
-* `migrate`: synchronizes the database state with the current set of models and migrations.
-* `createsuperuser`: create a superuser (admin).
 
 ## Misc
 
