@@ -94,6 +94,7 @@ synchronizes the database state with the current set of models and migrations.
 **Points:**
 * Fields are specified by class attributes. They are the only required part of a model defining the database fields.
 * Built-in field types: TODO:
+* Any page that lets a user enter and submit information on a web page is a *form*.
 
 ## Misc
 
