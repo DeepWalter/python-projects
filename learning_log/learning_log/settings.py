@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # My apps.
     'learning_logs',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'learning_log.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'learning_logs')],
+        'DIRS': [BASE_DIR],  # Search templates in BASE_DIR.
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

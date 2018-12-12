@@ -8,14 +8,14 @@ from .forms import TopicForm, EntryForm
 
 def index(request):
     """The homepage for Learning Log."""
-    return render(request, 'index.html')
+    return render(request, 'learning_logs/index.html')
 
 
 def topics(request):
     """Show all topics."""
     topics = Topic.objects.order_by('date_added')
     context = {'topics': topics}
-    return render(request, 'topics.html', context)
+    return render(request, 'learning_logs/topics.html', context)
 
 
 def topic(request, topic_id):
@@ -23,7 +23,7 @@ def topic(request, topic_id):
     topic = Topic.objects.get(id=topic_id)
     entries = topic.entry_set.order_by('-date_added')  # reverse order
     context = {'topic': topic, 'entries': entries}
-    return render(request, 'topic.html', context)
+    return render(request, 'learning_logs/topic.html', context)
 
 
 def new_topic(request):
@@ -36,10 +36,10 @@ def new_topic(request):
         form = TopicForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('topics'))
+            return HttpResponseRedirect(reverse('learning_logs:topics'))
 
     context = {'form': form}
-    return render(request, 'new_topic.html', context)
+    return render(request, 'learning_logs/new_topic.html', context)
 
 
 def new_entry(request, topic_id):
@@ -54,10 +54,11 @@ def new_entry(request, topic_id):
             new_entry = form.save(commit=False)
             new_entry.topic = topic
             new_entry.save()
-            return HttpResponseRedirect(reverse('topic', args=[topic_id]))
+            return HttpResponseRedirect(reverse('learning_logs:topic',
+                                                args=[topic_id]))
 
     context = {'topic': topic, 'form': form}
-    return render(request, 'new_entry.html', context)
+    return render(request, 'learning_logs/new_entry.html', context)
 
 
 def edit_entry(request, entry_id):
@@ -71,7 +72,8 @@ def edit_entry(request, entry_id):
         form = EntryForm(instance=entry, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('topic', args=[topic.id]))
+            return HttpResponseRedirect(reverse('learning_logs:topic',
+                                                args=[topic.id]))
 
     context = {'entry': entry, 'topic': topic, 'form': form}
-    return render(request, 'edit_entry.html', context)
+    return render(request, 'learning_logs/edit_entry.html', context)
