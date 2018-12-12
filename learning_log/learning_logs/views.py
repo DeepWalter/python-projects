@@ -24,13 +24,32 @@ def topics(request):
 def topic(request, topic_id):
     """Show a single topic and all its entries."""
     topic = Topic.objects.get(id=topic_id)
-    # Make sure the topic belongs to the current user.
-    if topic.owner != request.user:
-        raise Http404
+    # Make sure the topic belongs to the current user whenever you
+    # retrieve a topic.
+    check_topic_owner(topic.owner, request.user)
 
     entries = topic.entry_set.order_by('-date_added')  # reverse order
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
+
+
+def check_topic_owner(owner, user):
+    """Check if the owner is the current user.
+
+    Parameters
+    ----------
+    owner: User
+        The owner of the topic.
+    user: User
+        The current user.
+
+    Raises
+    ------
+    Http404
+        If the owner is not the current user.
+    """
+    if owner != user:
+        raise Http404
 
 
 @login_required
@@ -56,6 +75,7 @@ def new_topic(request):
 def new_entry(request, topic_id):
     """Add a new entry to a specific topic."""
     topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(topic.owner, request.user)
 
     if request.method != 'POST':
         form = EntryForm()
@@ -77,9 +97,7 @@ def edit_entry(request, entry_id):
     """Edit an existing entry."""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
-    # Make sure the topic belongs to the current user.
-    if topic.owner != request.user:
-        raise Http404
+    check_topic_owner(topic.owner, request.user)
 
     if request.method != 'POST':
         form = EntryForm(instance=entry)
