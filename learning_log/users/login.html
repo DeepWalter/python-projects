@@ -9,6 +9,7 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button name="submit">Log In</button>
+    <button onclick="{location.href='{% url 'learning_logs:index' %}'}">Back</button>
     <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
   </form>
 {% endblock %}
