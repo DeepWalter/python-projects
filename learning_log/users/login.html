@@ -1,15 +1,23 @@
 {% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+<h2>Log in to your account.</h2>
+{% endblock %}
 
 {% block content %}
   {% if form.error %}
   <p>Your username and password didn't match. Please try again.</p>
   {% endif %}
 
-  <form method="POST" action="{% url 'users:login' %}">
+  <form method="POST" action="{% url 'users:login' %}" class="form">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% bootstrap_form form %}
+
+    {% buttons %}
     <button name="submit">Log In</button>
     <button onclick="{location.href='{% url 'learning_logs:index' %}'}">Back</button>
+    {% endbuttons %}
     <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
   </form>
 {% endblock %}
