@@ -92,6 +92,10 @@ synchronizes the database state with the current set of models and migrations.
 ## Django Basics
 
 **Points:**
+* Steps of creating web pages with Django:
+  1. define a URL for the page to be created;
+  2. write a view funtion to retrieve and process the data needed for the page;
+  3. write a template to build the page for the browser.
 * Fields are specified by class attributes. They are the only required part of a model defining the database fields.
 * Built-in field types: TODO:
 * Any page that lets a user enter and submit information on a web page is a *form*.
