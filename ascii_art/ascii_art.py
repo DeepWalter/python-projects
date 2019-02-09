@@ -1,3 +1,5 @@
+import argparse
+
 import numpy as np
 from PIL import Image
 
@@ -85,8 +87,70 @@ def image_to_ascii(filename, cols, scale, more=True):
 
 
 if __name__ == '__main__':
-    aimg = image_to_ascii('./lal.jpg', 128, 0.5, True)
-    f = open('out.txt', 'w')
-    for row in aimg:
-        f.write(row + '\n')
-    f.close()
+    # provide the command line options.
+    parser = argparse.ArgumentParser(
+        prog='python ascii_art.py',
+        description='Convert image into ASCII art.'
+    )
+
+    parser.add_argument(
+        '--file',
+        dest='filename',
+        type=str,
+        required=True,
+        help='path to the image file'
+    )
+
+    parser.add_argument(
+        '--scale',
+        dest='scale',
+        type=float,
+        required=False,
+        default=0.43,
+        help='aspect ratio of the output. Optional, default to 0.43'
+    )
+
+    parser.add_argument(
+        '--cols',
+        dest='cols',
+        type=int,
+        required=False,
+        default=80,
+        help='number of columns of the output. Optional, default to 80'
+    )
+
+    parser.add_argument(
+        '--more',
+        dest='more',
+        type=bool,
+        required=False,
+        default=True,
+        help='use more levels of gray? Optional, default to True'
+    )
+
+    parser.add_argument(
+        '--out',
+        dest='out',
+        type=str,
+        required=False,
+        default=None,
+        help='name of the output file. Optional, default to None'
+    )
+
+    # Parse arguments.
+    args = parser.parse_args()
+
+    print('Generating ASCII art...')
+
+    aimg = image_to_ascii(args.filename, args.cols, args.scale, args.more)
+
+    if args.out is not None:
+        with open(args.out, 'w') as f:
+            for row in aimg:
+                f.write(row + '\n')
+        print(f'ASCII art written to {args.out}')
+    else:
+        print('\n')
+        for row in aimg:
+            print(row)
+# Feb 10, 2019 TODO: make the comment style consistent.
