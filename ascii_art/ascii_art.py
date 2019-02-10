@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 from PIL import Image
 
-# grayscale level values from:
+# Grayscale level values from:
 # http://paulbourke.net/dataformats/asciiart/
 
 # 70 levels of gray
@@ -33,31 +33,31 @@ def image_to_ascii(filename, cols, scale, more=True):
     list[str]
         The converted ASCII art as a list of strings.
     """
-    # grayscale globals.
+    # Grayscale globals.
     global grayscale70, grayscale10
 
-    # open image and convert to grayscale.
+    # Open image and convert to grayscale.
     image = Image.open(filename).convert('L')
 
-    # image dimensions.
+    # Image dimensions.
     W, H = image.size[0], image.size[1]
     print(f'Input image dims: {W} x {H}')
 
-    # compute tile width and height.
+    # Compute tile width and height.
     width = W / cols
     height = width / scale
-    # compute number of rows to use in the final grid.
+    # Compute number of rows to use in the final grid.
     rows = int(H / height)
 
     print(f'cols: {cols}, rows: {rows}')
     print(f'tile dims: {width} x {height}')
 
-    # check if image is too small.
+    # Check if image is too small.
     if cols > W or rows > H:
         print('Image too small to specified cols!')
         exit(0)
 
-    # an ASCII image is a list of character strings.
+    # An ASCII image is a list of character strings.
     aimg = []
     for i in range(rows):
         upper = int(i * height)  # upper pixel coordinate of the tile
@@ -75,7 +75,7 @@ def image_to_ascii(filename, cols, scale, more=True):
             img = image.crop((left, upper, right, lower))
             avg = int(np.average(img))  # average grayscale
 
-            # convert the grayscale into char.
+            # Convert the grayscale into char.
             if more:
                 gsval = grayscale70[int((avg*69)/255)]
             else:
@@ -87,7 +87,7 @@ def image_to_ascii(filename, cols, scale, more=True):
 
 
 if __name__ == '__main__':
-    # provide the command line options.
+    # Provide the command line options.
     parser = argparse.ArgumentParser(
         prog='python ascii_art.py',
         description='Convert image into ASCII art.'
@@ -153,4 +153,3 @@ if __name__ == '__main__':
         print('\n')
         for row in aimg:
             print(row)
-# Feb 10, 2019 TODO: make the comment style consistent.
