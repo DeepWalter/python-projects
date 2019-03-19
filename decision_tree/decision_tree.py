@@ -18,7 +18,7 @@ class Question:
         self.headers = headers
 
     def match(self, example):
-        """Test whether the example mathes the question.
+        """Test whether the example matches the question.
 
         Parameters
         ----------
@@ -26,7 +26,7 @@ class Question:
             an single instance to be tested
 
         Returns: bool
-            True if the example mathes the question; False otherwise
+            True if the example matches the question; False otherwise
         """
         val = example[self.column]
         if is_numeric(val):
@@ -51,29 +51,29 @@ def is_numeric(val):
 
 
 def partition(rows, question):
-    """Partition the rows according to the question.
+    """Partition rows according to question.
 
     Parameters
     ----------
     rows: list
-        a collection of instances
+        a list of instances
     question: Question
         the question used to do the partition
 
     Returns
     -------
     (list, list)
-        a pair of lists. The left one is the collection of true instances and
-        the right one the collection of false instances.
+        a pair of lists. The left one is the list of true instances and
+        the right one the list of false instances.
     """
-    true_rows, false_rows = [], []
+    trues, falses = [], []
     for row in rows:
         if question.match(row):
-            true_rows.append(row)
+            trues.append(row)
         else:
-            false_rows.append(row)
+            falses.append(row)
 
-    return true_rows, false_rows
+    return trues, falses
 
 
 def class_counts(rows):
@@ -86,13 +86,14 @@ def class_counts(rows):
     Parameters
     ----------
     rows: list
-        a collection of instances
+        a list of instances
 
     Returns
     -------
     dict
-        a dictionary with class names as its keys and number of class
-        occurrences as its corresponding values
+        statistics of the occurrences of classes in rows. The keys are
+        the class names and the values are the corresponding number of
+        occurrences.
     """
     counts = {}
     for row in rows:
@@ -112,7 +113,7 @@ def gini(rows):
     Parameters
     ----------
     rows: list
-        a collection of instances
+        a list of instances
 
     Returns
     -------
@@ -135,9 +136,9 @@ def info_gain(trues, falses, current_gini):
     Parameters
     ----------
     trues: list
-        collection of true instances after splitting
+        list of true instances after splitting
     falses: list
-        collection of false instances after splitting
+        list of false instances after splitting
     current_gini: float
         Gini index of current collection
 
@@ -156,7 +157,7 @@ def find_best_split(rows, headers=None):
     Parameters
     ----------
     rows: list
-        a collection of instances
+        a list of instances
     headers: list[str]
         list of names of the features (default to None)
 
