@@ -6,6 +6,8 @@ from decision_tree import partition
 from decision_tree import class_counts
 from decision_tree import gini
 from decision_tree import info_gain
+from decision_tree import Leaf
+from decision_tree import majority_vote
 
 
 class TestIsNumeric(unittest.TestCase):
@@ -95,6 +97,17 @@ class TestGini(unittest.TestCase):
         trues, falses = partition(data, question)
         self.assertEqual(info_gain(trues, falses, gini(data)),
                          0.37333333333333324)
+
+
+class TestMajorityVote(unittest.TestCase):
+    def test_majority_vote(self):
+        leaf = Leaf([
+            ['Green', 3, 'Apple'],
+            ['Yellow', 3, 'Apple'],
+            ['Red', 1, 'Grape'],
+            ['Yellow', 3, 'Lemon'],
+        ])
+        self.assertEqual(majority_vote(leaf), 'Apple')
 
 
 if __name__ == '__main__':

@@ -1,3 +1,7 @@
+import csv
+import random
+
+
 class Question:
     """A question is used to partition a dataset.
 
@@ -29,7 +33,9 @@ class Question:
         example: list
             an single instance to be tested
 
-        Returns: bool
+        Returns
+        -------
+        bool
             True if the example matches the question; False otherwise
         """
         val = example[self.column]
@@ -122,7 +128,7 @@ def gini(rows):
     Returns
     -------
     float
-        the Gini index of rows according to its class names
+        Gini index of rows according to its class names
     """
     counts = class_counts(rows)
     n_total = len(rows)
@@ -144,7 +150,7 @@ def info_gain(trues, falses, current_gini):
     falses: list
         list of false instances after splitting
     current_gini: float
-        Gini index of current collection
+        Gini index of current list
 
     Returns
     -------
@@ -240,7 +246,6 @@ def build_tree(rows, headers=None):
     Node
         the root node of the binary decision tree
     """
-
     question, gain = find_best_split(rows, headers)
     if gain == 0:
         return Leaf(rows)
@@ -300,36 +305,49 @@ def classify(row, node):
         return classify(row, node.false_branch)
 
 
-# def print_leaf(leaf):
-#     """Print the predictions at a leaf.
-
-#     Parameters
-#     ----------
-#     leaf: Leaf
-#         the leaf to be printed
-#     """
-#     probs = {}
-#     total = sum(leaf.predictions.values())
-#     for key in leaf.predictions:
-#         probs[key] = f'{leaf.predictions[key] / total * 100}%'
-#     return probs
+def majority_vote(leaf):
+    """Determine the class of the leaf by majority vote."""
+    pred = leaf.predictions
+    return max(pred, key=lambda elem: int(pred.get(elem)))
 
 
 if __name__ == '__main__':
 
-    training_data = [
-        ['Green', 3, 'Apple'],
-        ['Yellow', 3, 'Apple'],
-        ['Red', 1, 'Grape'],
-        ['Red', 1, 'Grape'],
-        ['Yellow', 3, 'Lemon'],
-        ['Yellow', 1, 'Banana']
-    ]
+    # training_data = [
+    #     ['Green', 3, 'Apple'],
+    #     ['Yellow', 3, 'Apple'],
+    #     ['Red', 1, 'Grape'],
+    #     ['Red', 1, 'Grape'],
+    #     ['Yellow', 3, 'Lemon'],
+    #     ['Yellow', 1, 'Banana']
+    # ]
 
-    headers = ['color', 'diameter', 'label']
+    # headers = ['color', 'diameter', 'label']
 
-    leaf = Leaf(training_data)
-    tree = build_tree(training_data, headers)
+    # leaf = Leaf(training_data)
+    # tree = build_tree(training_data, headers)
 
-    for row in training_data:
-        print(f'Actual: {row[-1]}. Predict: {classify(row, tree)}')
+    # for row in training_data:
+    #     print(f'Actual: {row[-1]}. Predict: {classify(row, tree)}')
+    iris_headers = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth',
+                    'Class']
+
+    with open('iris.csv') as f:
+        irisreader = csv.reader(f, delimiter=',', quoting=csv.QUOTE_NONNUMERIC)
+        iris_data = list(irisreader)
+
+    random.shuffle(iris_data)
+    n_train = int(len(iris_data) * 0.8)
+    training_data = iris_data[:n_train]
+    test_data = iris_data[n_train:]
+    tree = build_tree(training_data, iris_headers)
+    print_tree(tree)
+
+    n_false = 0
+    for row in test_data:
+        prediction = majority_vote(classify(row, tree))
+        if row[-1] != prediction:
+            n_false += 1
+    accuracy = 1 - n_false / len(test_data)
+
+    print(f'Accuracy is {accuracy:.2%}')
