@@ -1,8 +1,7 @@
-
 class Question:
     """A question is used to partition a dataset.
 
-    Parameters
+    Attributes
     ----------
     column: int
         column number of the feature
@@ -10,6 +9,11 @@ class Question:
         the value used to decide the partition
     headers: list[str]
         list of names of the features (default to None)
+
+    Methods
+    -------
+    match(example)
+        Test whether the example matches the question.
     """
 
     def __init__(self, column, value, headers=None):
@@ -154,6 +158,9 @@ def info_gain(trues, falses, current_gini):
 def find_best_split(rows, headers=None):
     """Find the best question to split the rows.
 
+    Iterate through every feature and value to find the best binary
+    split.
+
     Parameters
     ----------
     rows: list
@@ -176,12 +183,136 @@ def find_best_split(rows, headers=None):
         for val in values:
             question = Question(col, val, headers)
             trues, falses = partition(rows, question)
+
+            # Sanity check.
+            if len(trues) == 0 or len(falses) == 0:
+                continue
+
             gain = info_gain(trues, falses, current_gini)
 
             if best_gain <= gain:
                 best_question, best_gain = question, gain
 
     return best_question, best_gain
+
+
+class Leaf:
+    """A leaf node."""
+
+    def __init__(self, rows):
+        self.predictions = class_counts(rows)
+
+    def __repr__(self):
+        return str(self.predictions)
+
+    def __str__(self):
+        probs = {}
+        total = sum(self.predictions.values())
+        for key in self.predictions:
+            probs[key] = f'{self.predictions[key] / total * 100}%'
+        return str(probs)
+
+
+class Node:
+    """A decision node."""
+
+    def __init__(self, question, true_branch, false_branch):
+        self.question = question
+        self.true_branch = true_branch
+        self.false_branch = false_branch
+
+    def __repr__(self):
+        return str(self.question)
+
+
+def build_tree(rows, headers=None):
+    """Build the binary decision tree.
+
+    Parameters
+    ----------
+    rows: list
+        a list of instances
+    headers: list[str]
+        list of names of the features (default to None)
+
+    Returns
+    -------
+    Node
+        the root node of the binary decision tree
+    """
+
+    question, gain = find_best_split(rows, headers)
+    if gain == 0:
+        return Leaf(rows)
+
+    true_rows, false_rows = partition(rows, question)
+
+    true_branch = build_tree(true_rows, headers)
+    false_branch = build_tree(false_rows, headers)
+
+    return Node(question, true_branch, false_branch)
+
+
+def print_tree(node, spacing=''):
+    """Print the tree.
+
+    Parameters
+    ----------
+    node: Leaf or Node
+        a tree or leaf node to be printed
+    spacing: str
+        spacing string
+    """
+    if isinstance(node, Leaf):
+        print(spacing + 'Predict: ' + str(node))
+        return
+
+    print(spacing + str(node))  # Print question
+    # Print true branch
+    print(spacing + '-->True:')
+    print_tree(node.true_branch, spacing + '    ')
+    # Print false branch
+    print(spacing + '-->False:')
+    print_tree(node.false_branch, spacing + '    ')
+
+
+def classify(row, node):
+    """Classify an instance (row) according to the decision tree (tree).
+
+    Parameters
+    ----------
+    row: list
+        a single instance
+    node: Leaf or Node
+        the decision tree
+
+    Returns
+    -------
+    Leaf
+        the leaf in which the instance falls
+    """
+    if isinstance(node, Leaf):
+        return node
+
+    if node.question.match(row):
+        return classify(row, node.true_branch)
+    else:
+        return classify(row, node.false_branch)
+
+
+# def print_leaf(leaf):
+#     """Print the predictions at a leaf.
+
+#     Parameters
+#     ----------
+#     leaf: Leaf
+#         the leaf to be printed
+#     """
+#     probs = {}
+#     total = sum(leaf.predictions.values())
+#     for key in leaf.predictions:
+#         probs[key] = f'{leaf.predictions[key] / total * 100}%'
+#     return probs
 
 
 if __name__ == '__main__':
@@ -192,6 +323,13 @@ if __name__ == '__main__':
         ['Red', 1, 'Grape'],
         ['Red', 1, 'Grape'],
         ['Yellow', 3, 'Lemon'],
+        ['Yellow', 1, 'Banana']
     ]
 
     headers = ['color', 'diameter', 'label']
+
+    leaf = Leaf(training_data)
+    tree = build_tree(training_data, headers)
+
+    for row in training_data:
+        print(f'Actual: {row[-1]}. Predict: {classify(row, tree)}')
