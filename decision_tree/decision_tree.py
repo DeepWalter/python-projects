@@ -215,7 +215,7 @@ class Leaf:
         probs = {}
         total = sum(self.predictions.values())
         for key in self.predictions:
-            probs[key] = f'{self.predictions[key] / total * 100}%'
+            probs[key] = f'{self.predictions[key] / total:.2%}'
         return str(probs)
 
 
